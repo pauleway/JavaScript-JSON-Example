@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Name Generator</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+
+  <center><a href="https://github.com/thm/uinames">API Site</a></center>
+
+
+  <div class="jumbotron text-center">
+    <h1>Name Generator</h1>
+<!--    <img src="img.png" width="400" height="200">-->
+  </div>
+
+
+
+  <div>
+    <p id="contents"></p>
+  </div>
+
+  <div class="container">
+    <div class="rw">
+      <div class="col-sm">
+        <button type="button" onclick="document.getElementById('joke').innerHTML = getName()">
+          Click me to generate random names!
+        </button>
+        <div class="col-sm-8">&nbsp;</div>
+        <p id="joke">
+        </p>
+      </div>
+    </div>
+  </div>
+  <script>
+    function getName() {
+      fetch('https://uinames.com/api/?amount=25')
+        .then((response) => {
+          return response.json();
+        })
+        .then((response) => {
+          let p = document.getElementById('joke');
+          p.innerHTML = "";
+          console.log(response);
+          for(var i = 0; i < response.length; i++){
+            p.innerHTML += response[i].name + " "+response[i].surname + "<br>";
+          }
+        });
+    }
+  </script>
+
+</body></html>

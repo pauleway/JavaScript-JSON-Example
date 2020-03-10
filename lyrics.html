@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Lyrics Search</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+
+  <div class="jumbotron text-center">
+    <h1>Lyrics Search</h1>
+    <p>Find a song by artist &amp; Title . . .</p>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div style="col-sm">
+        Artist: <input type="text" id="artist" value="Coldplay"> <br />
+        Song: <input type="text" id="song" value="Adventure of a Lifetime"> <br />
+
+        <input type="button" onclick="searchForACharacter();" value="search">
+      </div>
+    </div>
+    <div>
+      <hr>
+      <p id="output"></p>
+    </div>
+  </div>
+  <script>
+    function searchForACharacter() {
+      let artist = document.getElementById('artist').value;
+      let song = document.getElementById('song').value;
+
+      let url = 'https://api.lyrics.ovh/v1/' + artist + '/' + song;
+      fetch(url)
+        .then((response) => {
+          return response.json();
+        })
+        .then((myJson) => {
+          console.log(myJson);
+          let p = document.getElementById('output');
+          let lyrics = myJson.lyrics;
+          lyrics = lyrics.replace(/\n/g, "<br />");
+          p.innerHTML = lyrics;
+        });
+    }
+  </script>
+
+</body></html>

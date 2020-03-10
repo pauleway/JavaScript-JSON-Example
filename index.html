@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Dad Jokes</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+
+  <div class="jumbotron text-center">
+    <h1>Dad Jokes!</h1>
+    <p>Groan away. . . </p>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div style="col-sm">
+        <input type="button" onclick="getARandomJoke();" value="Get a Random Joke!">
+      </div>
+      <div style="col-sm">&nbsp;</div>
+      <div style="col-sm">
+        <input type="text" id="searchTerm" placeholder="search. . . .">
+        <input type="button" onclick="searchForAJoke();" value="search">
+      </div>
+    </div>
+    <div>
+      <hr>
+      <p id="joke"></p>
+    </div>
+  </div>
+  <script>
+    
+    
+    
+    
+    
+    
+    function getARandomJoke() {
+      fetch('https://icanhazdadjoke.com/', {
+          headers: new Headers({
+            'Accept': 'application/json'
+          })
+        })
+        .then((response) => {
+          return response.json();
+        })
+        .then((myJson) => {
+          console.log(myJson);
+          let p = document.getElementById('joke')
+          p.innerHTML = myJson.joke + "<br>";
+        });
+    }
+
+    
+    
+    
+    
+    function searchForAJoke() {
+      let searchTerm = document.getElementById('searchTerm').value;
+      console.log(searchTerm);
+      let url = 'https://icanhazdadjoke.com/search?term=' + searchTerm;
+      fetch(url, {
+          headers: new Headers({
+            'Accept': 'application/json'
+          })
+        })
+        .then((response) => {
+          return response.json();
+        })
+        .then((myJson) => {
+          console.log(myJson);
+          let jokes = myJson.results;
+          let p = document.getElementById('joke')
+          for (var i = 0; i < jokes.length; i++) {
+            p.innerHTML += jokes[i].joke + "<br>";
+
+          }
+        });
+    }
+  </script>
+
+</body></html>

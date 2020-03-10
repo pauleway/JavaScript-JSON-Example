@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>PuppyRecipes</title>
+
+  <meta charset="utf-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+
+</head>
+
+<body>
+
+  <div class="jumbotron text-center">
+    <h1>Food Recipes</h1>
+  </div>
+
+  <div>
+    <input type='text' id='searchTerm' placeholder='search....'>
+    <input type="button" onclick="searchForARecipe();" value="search">
+    <input type="button" onclick="getARandomRecipe();" value="Recipe">
+    <p id="Recipe"></p>
+  </div>
+
+
+  <script>
+    function getARandomRecipe() {
+      fetch('https://cors-anywhere.herokuapp.com/http://www.recipepuppy.com/api/')
+        .then((response) => {
+          return response.json();
+        })
+        .then((myJson) => {
+          console.log(myJson);
+          let p = document.getElementById('Recipe');
+          p.innerHTML = myJson.title + "<br>";
+        });
+    }
+
+    function searchForARecipe() {
+      let searchTerm = document.getElementById('searchTerm').value;
+      console.log(searchTerm);
+      let url = 'https://cors-anywhere.herokuapp.com/http://www.recipepuppy.com/api/?i='+searchTerm;
+      fetch(url)
+        .then((response) => {
+          return response.json();
+        })
+        .then((myJson) => {
+          console.log(myJson);
+          let Recipes = myJson.results;
+          let p = document.getElementById('Recipe');
+          for (var i = 0; i < Recipes.length; i++){
+            p.innerHTML += Recipes[i].title + "<br>";
+          }
+        });
+    }
+  </script>
+</body>
+
+</html>
